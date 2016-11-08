@@ -55,7 +55,7 @@ end
 
 tasks.each { |task|
   puts "#{task.name}"
-  puts "  progress: #{(task.progress * 100).round(2)}%\trate: #{task.rate} cps"
+  puts "  progress: #{(task.progress * 100).round(2)}%\trate: #{task.rate} cps (changes-per-second)"
   puts "  eta: #{render_eta(task.eta)}"
   puts
 }
