@@ -2,7 +2,7 @@ require 'httparty'
 require 'json'
 require 'date'
 
-module CouchIndexerInfo
+module ActiveCouch
   class Task
     def initialize(task)
       @task = task
@@ -44,7 +44,7 @@ module CouchIndexerInfo
   end
 end
 
-tasks = CouchIndexerInfo::get_tasks ['http://admin:password@localhost:15984', 'http://admin:password@localhost:25984']
+tasks = ActiveCouch::get_tasks ['http://admin:password@localhost:15984', 'http://admin:password@localhost:25984']
 
 def render_eta(eta)
   absolute_time = DateTime.strptime(eta[:time].to_s, "%s")
