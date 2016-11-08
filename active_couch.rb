@@ -48,9 +48,8 @@ tasks = CouchIndexerInfo::get_tasks ['http://admin:password@localhost:15984', 'h
 
 def render_eta(eta)
   absolute_time = DateTime.strptime(eta[:time].to_s, "%s")
-  relative_hours = (eta[:relative] / 3600).round(0)
-  relative_minutes = ((eta[:relative] - (relative_hours * 3600)) / 60).round(0)
-
+  relative_hours = (eta[:relative] / 3600).floor
+  relative_minutes = ((eta[:relative] - (relative_hours * 3600)) / 60).floor
   "#{absolute_time} (in #{relative_hours} hours #{relative_minutes} minutes)"
 end
 
