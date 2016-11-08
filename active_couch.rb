@@ -26,7 +26,10 @@ module CouchIndexerInfo
     end
 
     def eta
-      started_on + (total_changes / rate)
+      {
+        time: started_on + (total_changes / rate),
+        relative: (total_changes - changes_done) / rate
+      }
     end
   end
 
@@ -43,9 +46,17 @@ end
 
 tasks = CouchIndexerInfo::get_tasks ['http://admin:password@localhost:15984', 'http://admin:password@localhost:25984']
 
+def render_eta(eta)
+  absolute_time = DateTime.strptime(eta[:time].to_s, "%s")
+  relative_hours = (eta[:relative] / 3600).round(0)
+  relative_minutes = ((eta[:relative] - (relative_hours * 3600)) / 60).round(0)
+
+  "#{absolute_time} (in #{relative_hours} hours #{relative_minutes} minutes)"
+end
+
 tasks.each { |task|
   puts "#{task.name}"
   puts "  progress: #{(task.progress * 100).round(2)}%\trate: #{task.rate} cps"
-  puts "  eta: #{DateTime.strptime(task.eta.to_s, "%s")}"
+  puts "  eta: #{render_eta(task.eta)}"
   puts
 }
