@@ -17,10 +17,6 @@ module ActiveCouch
       "#{database}:#{design_document}"
     end
 
-    def progress
-      (1.0 * changes_done / total_changes).round(5)
-    end
-
     def rate
       (1.0 * changes_done / (updated_on - started_on)).round(2)
     end
@@ -53,9 +49,16 @@ def render_eta(eta)
   "#{absolute_time} (in #{relative_hours} hours #{relative_minutes} minutes)"
 end
 
+def render_progress_bar(done, total, bar_length=40)
+  completed = ((1.0 * done / total) * bar_length).floor
+  remaining = bar_length - completed
+  "[#{"#" * completed}#{"_" * remaining}] (#{(100.0*done/total).round(2)}%)"
+end
+
 tasks.each { |task|
   puts "#{task.name}"
-  puts "  progress: #{(task.progress * 100).round(2)}%\trate: #{task.rate} cps (changes-per-second)"
+  puts "  progress: #{render_progress_bar(task.changes_done, task.total_changes)}"
+  puts "  rate: #{task.rate} cps (changes-per-second)"
   puts "  eta: #{render_eta(task.eta)}"
   puts
 }
