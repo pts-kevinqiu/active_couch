@@ -5,7 +5,8 @@ require 'date'
 
 module ActiveCouch
   class Task
-    def initialize(task)
+    def initialize(couchdb_url, task)
+      @couchdb_url = couchdb_url
       @task = task
     end
 
@@ -15,7 +16,7 @@ module ActiveCouch
     end
 
     def name
-      "#{database}:#{design_document}"
+      "#{@couchdb_url} - #{database}:#{design_document}"
     end
 
     def rate
