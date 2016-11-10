@@ -36,7 +36,7 @@ module ActiveCouch
     couch_hosts.each { |host|
       response = HTTParty.get("#{host}/_active_tasks")
       json_response = JSON.parse(response.body)
-      tasks += json_response.collect { |task| Task.new(task) }
+      tasks += json_response.collect { |task| Task.new(host, task) }
     }
     tasks
   end
