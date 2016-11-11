@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative 'active_couch'
+require 'active_couch'
 
 class ActiveCouchTest < Minitest::Test
   REPLICATION_TASK = {"pid"=>"<0.148.0>",

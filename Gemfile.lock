@@ -3,6 +3,7 @@ GEM
   specs:
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
+    minitest (5.9.1)
     multi_xml (0.5.5)
 
 PLATFORMS
@@ -10,3 +11,4 @@ PLATFORMS
 
 DEPENDENCIES
   httparty (~> 0.14.0)
+  minitest (>= 5.0.0)
