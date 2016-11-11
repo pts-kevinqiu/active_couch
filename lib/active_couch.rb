@@ -3,9 +3,11 @@ require 'httparty'
 require 'json'
 require 'date'
 
-#{"pid"=>"<0.148.0>", "checkpoint_interval"=>5000, "checkpointed_source_seq"=>30, "continuous"=>true, "doc_id"=>"68c0e0a8f401d2e32ca1b85120000555", "doc_write_failures"=>0, "docs_read"=>0, "docs_written"=>0, "missing_revisions_found"=>0, "progress"=>100, "replication_id"=>"7fe5e549981919312555e29aee5caa95+continuous+create_target", "revisions_checked"=>23, "source"=>"http://admin:*****@tor-per-platformdb3.points.com:5984/_users/", "source_seq"=>30, "started_on"=>1478620814, "target"=>"http://admin:*****@localhost:5984/_users/", "type"=>"replication", "updated_on"=>1478809684}
-
 module ActiveCouch
+  def create_task(couchdb_url, task)
+    ReplicationTask.new(couchdb_url, task)
+  end
+
   class Task
     def initialize(couchdb_url, task)
       @couchdb_url = couchdb_url
@@ -16,7 +18,12 @@ module ActiveCouch
       key = key.to_s
       return @task[key] if @task.key?(key)
     end
+  end
 
+  class ReplicationTask < Task
+  end
+
+  class IndexingTask < Task
     def name
       "#{@couchdb_url} - #{database}:#{design_document}"
     end
