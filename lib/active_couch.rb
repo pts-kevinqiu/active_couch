@@ -4,10 +4,6 @@ require 'json'
 require 'date'
 
 module ActiveCouch
-  def create_task(couchdb_url, task)
-    ReplicationTask.new(couchdb_url, task)
-  end
-
   class Task
     def initialize(couchdb_url, task)
       @couchdb_url = couchdb_url
@@ -40,12 +36,16 @@ module ActiveCouch
     end
   end
 
+  def self.create_task(couchdb_url, task)
+    IndexingTask.new(couchdb_url, task)
+  end
+
   def self.get_tasks(couch_hosts)
     tasks = []
     couch_hosts.each { |host|
       response = HTTParty.get("#{host}/_active_tasks")
       json_response = JSON.parse(response.body)
-      tasks += json_response.collect { |task| Task.new(host, task) }
+      tasks += json_response.collect { |task| create_task(host, task) }
     }
     tasks
   end
