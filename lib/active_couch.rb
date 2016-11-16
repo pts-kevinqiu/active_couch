@@ -28,12 +28,12 @@ module ActiveCouch
 
   class ReplicationTask < Task
     def name
-      "R-#{replication_id}, target:#{target}"
+      "R-#{replication_id} #{source}=>#{target}"
     end
 
     def render
       ["#{name}",
-       "#{render_progress_bar(progress, 100)}"].join("\t")
+       "#{render_progress_bar(checkpointed_source_seq, source_seq)}"].join("\t")
     end
   end
 
