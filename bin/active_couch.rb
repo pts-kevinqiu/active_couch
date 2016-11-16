@@ -2,6 +2,10 @@
 
 require 'active_couch'
 
+def mask_password(host)
+  part, _ = host.split('@')
+end
+
 def main(couchdb_urls)
   tasks = ActiveCouch::get_tasks couchdb_urls
 
