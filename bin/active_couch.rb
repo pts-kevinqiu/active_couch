@@ -3,14 +3,14 @@
 require 'active_couch'
 
 def mask_password(host)
-  part, _ = host.split('@')
+  host.gsub(/(https?:\/\/)([^:]+:)([^@]+)(@.+)/, '\1\2***\4')
 end
 
 def main(couchdb_urls)
   tasks = ActiveCouch::get_tasks couchdb_urls
 
   tasks.each_pair {|host, tasks|
-    puts "Host: #{host}"
+    puts "Host: #{mask_password(host)}"
     tasks.each {|task|
       puts task.render
     }
