@@ -28,7 +28,7 @@ module ActiveCouch
 
   class ReplicationTask < Task
     def name
-      "Replication: #{@couchdb_url}/id:#{replication_id}, target:#{target}"
+      "R-#{replication_id}, target:#{target}"
     end
 
     def render
@@ -39,7 +39,7 @@ module ActiveCouch
 
   class CompactionTask < Task
     def name
-      "Compaction: #{@couchdb_url}/#{database}:#{design_document}"
+      "C-#{database}:#{design_document}"
     end
 
     def render
@@ -50,7 +50,7 @@ module ActiveCouch
 
   class IndexingTask < Task
     def name
-      "Indexing: #{@couchdb_url}/#{database}:#{design_document}"
+      "I-#{@couchdb_url}/#{database}:#{design_document}"
     end
 
     def rate
@@ -91,11 +91,11 @@ module ActiveCouch
   end
 
   def self.get_tasks(couch_hosts)
-    tasks = []
+    tasks = {}
     couch_hosts.each { |host|
       response = HTTParty.get("#{host}/_active_tasks")
       json_response = JSON.parse(response.body)
-      tasks += json_response.collect { |task| create_task(host, task) }
+      tasks[host] = json_response.collect { |task| create_task(host, task) }
     }
     tasks
   end
