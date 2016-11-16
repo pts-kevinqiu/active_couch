@@ -28,9 +28,8 @@ module ActiveCouch
 
   class CompactionTask < Task
     def name
-      "Replication : #{@couchdb_url} - #{replication_id}"
+      "Compaction: #{@couchdb_url}"
     end
-
   end
 
   class IndexingTask < Task
