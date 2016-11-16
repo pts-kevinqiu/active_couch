@@ -13,8 +13,8 @@ Usage
 =====
 
 
-    activecouch <couchdb_instances...>
+    active_couch <couchdb_instances...>
 
 e.g.
 
-  activecouch http://localhost:5984 http://admin:password@example.org
+    active_couch http://localhost:5984 http://admin:password@example.org
