@@ -7,5 +7,5 @@ Gem::Specification.new do |s|
   s.authors     = ['Kevin J. Qiu']
   s.email       = 'kevin@idempotent.ca'
   s.files       = ['lib/active_couch.rb']
-  s.license     = 'BSD'
+  s.license     = '0BSD'
 end

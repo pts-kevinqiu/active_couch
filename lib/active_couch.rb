@@ -3,6 +3,16 @@ require 'httparty'
 require 'json'
 require 'date'
 
+module RenderETA
+  # requires class to implement `eta` method
+  def render_eta
+    absolute_time = DateTime.strptime(eta[:time].to_s, "%s")
+    relative_hours = (eta[:relative] / 3600).floor
+    relative_minutes = ((eta[:relative] - (relative_hours * 3600)) / 60).floor
+    "#{absolute_time} (in #{relative_hours} hours #{relative_minutes} minutes)"
+  end
+end
+
 module ActiveCouch
   class Task
     def initialize(couchdb_url, task)
@@ -27,13 +37,28 @@ module ActiveCouch
   end
 
   class ReplicationTask < Task
+    include RenderETA
+
     def name
       "R-#{replication_id} #{source}=>#{target}"
     end
 
     def render
       ["#{name}",
-       "#{render_progress_bar(checkpointed_source_seq, source_seq)}"].join("\t")
+       "Rate: #{rate} cps",
+       "ETA:  #{render_eta}",
+       "#{render_progress_bar(checkpointed_source_seq, source_seq)}"].join("\n")
+    end
+
+    def eta
+      {
+        time: started_on + (source_seq / rate),
+        relative: (source_seq - checkpointed_source_seq) / rate
+      }
+    end
+
+    def rate
+      (1.0 * checkpointed_source_seq / (updated_on - started_on)).round(2)
     end
   end
 
@@ -49,6 +74,8 @@ module ActiveCouch
   end
 
   class IndexingTask < Task
+    include RenderETA
+
     def name
       "I-#{@couchdb_url}/#{database}:#{design_document}"
     end
@@ -62,13 +89,6 @@ module ActiveCouch
         time: started_on + (total_changes / rate),
         relative: (total_changes - changes_done) / rate
       }
-    end
-
-    def render_eta(eta)
-      absolute_time = DateTime.strptime(eta[:time].to_s, "%s")
-      relative_hours = (eta[:relative] / 3600).floor
-      relative_minutes = ((eta[:relative] - (relative_hours * 3600)) / 60).floor
-      "#{absolute_time} (in #{relative_hours} hours #{relative_minutes} minutes)"
     end
 
     def render
