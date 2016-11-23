@@ -94,7 +94,7 @@ module ActiveCouch
     def render
       ["#{name}",
        "#{render_progress_bar(changes_done, total_changes)}",
-       "#{rate} cps (changes-per-second)",
+       "#{rate} cps",
        "eta: #{render_eta(eta)}",
       ].join("\t")
     end

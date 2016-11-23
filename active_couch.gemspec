@@ -6,6 +6,6 @@ Gem::Specification.new do |s|
   s.description = 'Friendly couchdb active task'
   s.authors     = ['Kevin J. Qiu']
   s.email       = 'kevin@idempotent.ca'
-  s.files       = ['lib/active_couch.rb']
+  s.files       = ['lib/active_couch.rb', 'bin/active_couch']
   s.license     = '0BSD'
 end
