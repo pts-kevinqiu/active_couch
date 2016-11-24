@@ -6,6 +6,7 @@ require 'date'
 module RenderETA
   # requires class to implement `eta` method
   def render_eta
+    return 'NA' if eta[:time] == Float::INFINITY
     absolute_time = DateTime.strptime(eta[:time].to_s, "%s")
     relative_hours = (eta[:relative] / 3600).floor
     relative_minutes = ((eta[:relative] - (relative_hours * 3600)) / 60).floor

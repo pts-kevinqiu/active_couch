@@ -13,6 +13,7 @@ def main(couchdb_urls)
     puts "Host: #{mask_password(host)}"
     tasks.each {|task|
       puts task.render
+      puts '-' * 50
     }
   }
 
