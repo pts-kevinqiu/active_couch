@@ -41,7 +41,7 @@ module ActiveCouch
     include RenderETA
 
     def name
-      "R-#{replication_id} #{source}=>#{target}"
+      "#{replication_id} #{source}=>#{target}"
     end
 
     def render
@@ -65,7 +65,7 @@ module ActiveCouch
 
   class CompactionTask < Task
     def name
-      "C-#{database}:#{design_document}"
+      "#{database}:#{design_document}"
     end
 
     def render
@@ -78,7 +78,7 @@ module ActiveCouch
     include RenderETA
 
     def name
-      "I-#{@couchdb_url}/#{database}:#{design_document}"
+      "#{@couchdb_url}/#{database}:#{design_document}"
     end
 
     def rate
