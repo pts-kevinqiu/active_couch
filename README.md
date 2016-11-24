@@ -7,7 +7,7 @@
 
 ```
 
-Monitor active couchdb tasks
+Monitor active couchdb tasks, such as replication, indexing or compaction. Calculates progress and show estimate time of completion.
 
 Usage
 =====
