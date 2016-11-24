@@ -95,8 +95,8 @@ module ActiveCouch
       ["#{name}",
        "#{render_progress_bar(changes_done, total_changes)}",
        "#{rate} cps",
-       "eta: #{render_eta(eta)}",
-      ].join("\t")
+       "eta: #{render_eta}",
+      ].join("\n")
     end
   end
 
