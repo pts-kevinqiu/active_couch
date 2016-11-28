@@ -13,11 +13,11 @@ Usage
 =====
 
 
-    active_couch <couchdb_instances...>
+    ruby -Ilib bin/active_couch <couchdb_instances...>
 
 e.g.
 
-    active_couch http://localhost:5984 http://admin:password@example.org
+    ruby -Ilib bin/active_couch http://localhost:5984 http://admin:password@example.org
 
 e..g,
 
@@ -37,3 +37,7 @@ e..g,
 	1979.6 cps
 	eta: 2016-11-24T21:15:27+00:00 (in 0 hours 0 minutes)
 	--------------------------------------------------
+
+You may want to continously check the progress of the tasks, in which case you can use it in combination with `watch`:
+
+    watch -n 2 ruby -Ilib bin/active_couch http://localhost:5984
